@@ -23,7 +23,7 @@ func NewLogger() *Logger {
 	return loggerInstance
 }
 
-func (l *Logger) writeLog(level LogLevel, message string) {
+func (l *Logger) writeLog(level LogLevel, message string, data interface{}) {
 	l.mutex.Lock()
 	defer l.mutex.Unlock()
 
@@ -32,7 +32,7 @@ func (l *Logger) writeLog(level LogLevel, message string) {
 	}
 
 	logTime := time.Now().Format(l.timeFormat)
-	logEntry := fmt.Sprintf("[%s] %s %s\n", logLevelToString(level), logTime, message)
+	logEntry := fmt.Sprintf("[%s] %s %s %v\n", logLevelToString(level), logTime, message, data)
 
 	log.Print(logEntry)
 
@@ -41,20 +41,20 @@ func (l *Logger) writeLog(level LogLevel, message string) {
 	}
 }
 
-func (l *Logger) Debug(message string) {
-	l.writeLog(DEBUG, message)
+func (l *Logger) Debug(message string, data interface{}) {
+	l.writeLog(DEBUG, message, data)
 }
 
-func (l *Logger) Info(message string) {
-	l.writeLog(INFO, message)
+func (l *Logger) Info(message string, data interface{}) {
+	l.writeLog(INFO, message, data)
 }
 
-func (l *Logger) Warning(message string) {
-	l.writeLog(WARNING, message)
+func (l *Logger) Warning(message string, data interface{}) {
+	l.writeLog(WARNING, message, data)
 }
 
-func (l *Logger) Error(message string) {
-	l.writeLog(ERROR, message)
+func (l *Logger) Error(message string, err error) {
+	l.writeLog(ERROR, message, err)
 }
 
 func (l *Logger) SetLogLevel(level LogLevel) {

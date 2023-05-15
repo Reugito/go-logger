@@ -16,12 +16,12 @@ var loggerInstance *Logger
 var initMutex sync.Mutex
 
 type DataStore interface {
-	writeLog(level LogLevel, message string)
+	writeLog(level LogLevel, message string, data interface{})
 
-	Debug(message string)
-	Info(message string)
-	Warning(message string)
-	Error(message string)
+	Debug(message string, data interface{})
+	Info(message string, data interface{})
+	Warning(message string, data interface{})
+	Error(message string, error error)
 
 	SetLogLevel(level LogLevel)
 	SetTimeFormat(format string)
